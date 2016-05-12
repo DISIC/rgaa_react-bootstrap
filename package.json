@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Accessible React Bootstrap components.",
   "author": "Félix Girault <felix@vtech.fr>",
-  "license": "MIT",
+  "license": "CC-BY 2.0",
   "main": "dist/rgaa_react-bootstrap.js",
   "scripts": {
     "build": "webpack",
