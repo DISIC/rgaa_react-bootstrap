@@ -7,6 +7,7 @@
   "main": "dist/rgaa_react-bootstrap.js",
   "scripts": {
     "build": "webpack",
+    "test": "karma start",
     "prepublish": "npm run build"
   },
   "dependencies": {
@@ -18,9 +19,17 @@
   },
   "devDependencies": {
     "jsx-loader": "^0.13.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.1",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^3.1.2",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
+    "rgaa-test-suite": "^1.1.0",
     "webpack": "^1.12.15"
   }
 }
