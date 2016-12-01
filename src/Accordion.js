@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDom = require('react-dom');
 var ReactBootstrap = require('react-bootstrap');
 
 
@@ -27,7 +28,7 @@ module.exports = React.createClass({
 	 *	Attaches event handlers and sets up the markup.
 	 */
 	componentDidMount: function() {
-		this.node = React.findDOMNode(this);
+		this.node = ReactDom.findDOMNode(this);
 		this.tabs = this.node.querySelectorAll('.panel-heading a');
 		this.panes = this.node.getElementsByClassName('panel-collapse');
 

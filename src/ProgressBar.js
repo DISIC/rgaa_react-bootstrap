@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDom = require('react-dom');
 var ReactBootstrap = require('react-bootstrap');
 var uid = require('uid');
 
@@ -61,7 +62,7 @@ module.exports = React.createClass({
 	 *	progress bars.
 	 */
 	updateTexts: function() {
-		var node = React.findDOMNode(this.refs.progress);
+		var node = ReactDom.findDOMNode(this.refs.progress);
 		var children = node.childNodes;
 
 		for (var i = 0, l = children.length; i < l; i++) {
