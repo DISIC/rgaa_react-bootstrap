@@ -18,14 +18,33 @@ module.exports = React.createClass({
 	},
 
 	componentDidMount: function() {
-		this.updateTexts();
+		this.setupTitles();
 		this.setupTarget();
+
+		this.updateTexts();
 		this.updateTarget();
 	},
 
 	componentDidUpdate: function() {
 		this.updateTexts();
 		this.updateTarget();
+	},
+
+	/**
+	 *
+	 */
+	childNodes: function() {
+		var node = ReactDom.findDOMNode(this);
+		return [].slice.call(node.childNodes);
+	},
+
+	/**
+	 *
+	 */
+	setupTitles: function() {
+		this.childNodes().forEach(function(node) {
+			node.setAttribute('title', this.props.label);
+		}, this);
 	},
 
 	/**
@@ -50,8 +69,8 @@ module.exports = React.createClass({
 			return;
 		}
 
-		var min = this.props.min || 0;
-		var max = this.props.max || 100;
+		var min = this.props.min || ReactBootstrap.ProgressBar.defaultProps.min;
+		var max = this.props.max || ReactBootstrap.ProgressBar.defaultProps.max;
 		var busy = (this.props.now > min) && (this.props.now < max);
 
 		this.props.target.setAttribute('aria-busy', busy);
@@ -62,31 +81,19 @@ module.exports = React.createClass({
 	 *	progress bars.
 	 */
 	updateTexts: function() {
-		var node = ReactDom.findDOMNode(this.refs.progress);
-		var children = node.childNodes;
-
-		for (var i = 0, l = children.length; i < l; i++) {
-			this.updateText(children[i]);
-		}
-	},
-
-	/**
-	 *	Updates the valuetext property of the given node.
-	 *
-	 *	@param object node Node.
-	 */
-	updateText: function(node) {
-		var text = ('textContent' in node)
-			? node.textContent
-			: node.innerText;
-
-		node.setAttribute('aria-valuetext', text);
+		this.childNodes().forEach(function(node) {
+			if (this.props.now === undefined) {
+				node.removeAttribute('aria-valuetext');
+			} else {
+				node.setAttribute('aria-valuetext', this.props.label);
+			}
+		}, this);
 	},
 
 	/**
 	 *	Renders the progress bar.
 	 */
 	render: function() {
-		return <ReactBootstrap.ProgressBar ref="progress" {...this.props} />;
+		return <ReactBootstrap.ProgressBar {...this.props} />;
 	}
 });
