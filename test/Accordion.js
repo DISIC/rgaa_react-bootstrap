@@ -40,7 +40,7 @@ function accordionFactory(options) {
 /**
  *
  */
-describe.only(
+describe(
 	'React Bootstrap Accordion',
 	testAccordion(accordionFactory)
 );
