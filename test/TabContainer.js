@@ -20,7 +20,7 @@ function tabPanelFactory(options) {
 	});
 
 	render((
-		<Tab.Container defaultActiveKey={'tab' + selected} id="id">
+		<Tab.Container defaultActiveKey={'tab' + selected}>
 			<Row>
 				<Col>
 					<Nav>
