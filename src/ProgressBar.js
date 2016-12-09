@@ -2,6 +2,8 @@ var React = require('react');
 var ReactDom = require('react-dom');
 var ReactBootstrap = require('react-bootstrap');
 var uid = require('uid');
+var findDOMNode = ReactDom.findDOMNode;
+var ProgressBar = ReactBootstrap.ProgressBar;
 
 
 
@@ -11,64 +13,54 @@ var uid = require('uid');
  */
 module.exports = React.createClass({
 
-	getDefaultProps: function() {
+	getDefaultProps() {
 		return {
 			id: uid()
 		};
 	},
 
-	componentDidMount: function() {
-		this.setupTitles();
-		this.setupTarget();
+	componentDidMount() {
+		if (this.node) {
+			this.setupTitle();
+			this.updateText();
+		}
 
-		this.updateTexts();
-		this.updateTarget();
+		if (this.props.target) {
+			this.setupTarget();
+			this.updateTarget();
+		}
 	},
 
-	componentDidUpdate: function() {
-		this.updateTexts();
-		this.updateTarget();
+	componentDidUpdate() {
+		if (this.node) {
+			this.updateText();
+		}
+
+		if (this.props.target) {
+			this.updateTarget();
+		}
 	},
 
 	/**
 	 *
 	 */
-	childNodes: function() {
-		var node = ReactDom.findDOMNode(this);
-		return [].slice.call(node.childNodes);
-	},
-
-	/**
-	 *
-	 */
-	setupTitles: function() {
-		this.childNodes().forEach(function(node) {
-			node.setAttribute('title', this.props.label);
-		}, this);
+	setupTitle() {
+		this.node.setAttribute('title', this.props.title);
 	},
 
 	/**
 	 *	Adds an aria-describedby attribute on the target
 	 *	element to link it to the progress bar.
 	 */
-	setupTarget: function() {
-		if (this.props.target) {
-			this.props.target.setAttribute(
-				'aria-describedby',
-				this.props.id
-			);
-		}
+	setupTarget() {
+		this.props.target.setAttribute('aria-describedby', this.props.id);
 	},
 
 	/**
 	 *	Adds an aria-busy attribute on the target element
 	 *	to tell if it is currently updating.
 	 */
-	updateTarget: function() {
-		if (!this.props.target) {
-			return;
-		}
-
+	updateTarget() {
 		var min = this.props.min || ReactBootstrap.ProgressBar.defaultProps.min;
 		var max = this.props.max || ReactBootstrap.ProgressBar.defaultProps.max;
 		var busy = (this.props.now > min) && (this.props.now < max);
@@ -77,23 +69,42 @@ module.exports = React.createClass({
 	},
 
 	/**
-	 *	Updates the valuetext property of the children
-	 *	progress bars.
+	 *	Updates the valuetext property of the progress bar.
 	 */
-	updateTexts: function() {
-		this.childNodes().forEach(function(node) {
-			if (this.props.now === undefined) {
-				node.removeAttribute('aria-valuetext');
-			} else {
-				node.setAttribute('aria-valuetext', this.props.label);
-			}
-		}, this);
+	updateText() {
+		if (this.props.now === undefined) {
+			this.node.removeAttribute('aria-valuetext');
+		} else {
+			this.node.setAttribute('aria-valuetext', this.props.label);
+		}
+	},
+
+	/**
+	 *
+	 */
+	referenceNode(progressBar) {
+		// si la progress bar est enfant d'une autre, elle retourne directement
+		// une node [role="progressbar"]
+		if (this.props.isChild) {
+			this.node = findDOMNode(progressBar);
+
+		// sinon, si elle n'a pas de composants enfants elle retourne une div qui
+		// contient une node [role="progressbar"]
+		} else if (!this.props.children) {
+			this.node = findDOMNode(progressBar).childNodes[0];
+		}
 	},
 
 	/**
 	 *	Renders the progress bar.
 	 */
-	render: function() {
-		return <ReactBootstrap.ProgressBar {...this.props} />;
+	render() {
+		return (
+			<ProgressBar
+				{...this.props}
+				ref={this.referenceNode}
+				title={null} // voir setupTitle()
+			/>
+		);
 	}
 });
