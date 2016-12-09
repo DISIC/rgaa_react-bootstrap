@@ -72,7 +72,7 @@ function dialogFactory(options) {
 /**
  *
  */
-describe.only(
+describe(
 	'React Bootstrap Modal',
 	testDialog(dialogFactory)
 );
