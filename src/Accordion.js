@@ -35,25 +35,14 @@ var Accordion = React.createClass({
 	 */
 	componentDidMount() {
 		this.setupPanelsAttributes();
-		this.updatePanelsAttributes();
-
-		this.node.addEventListener('keydown', this.handleKeyDown);
-		document.addEventListener('focus', this.handleFocus, true);
+		this.updateTabsAttributes();
 	},
 
 	/**
 	 *
 	 */
 	componentDidUpdate() {
-		this.updatePanelsAttributes();
-	},
-
-	/**
-	 *	Detaches event handlers.
-	 */
-	componentWillUnmount() {
-		this.node.removeEventListener('keydown', this.handleKeyDown);
-		document.removeEventListener('focus', this.handleFocus, true);
+		this.updateTabsAttributes();
 	},
 
 	/**
@@ -75,7 +64,7 @@ var Accordion = React.createClass({
 	/**
 	 *	Updates attributes.
 	 */
-	updatePanelsAttributes() {
+	updateTabsAttributes() {
 		this.tabs.forEach(function(tab) {
 			this.makeFocusable(
 				tab,
@@ -101,20 +90,6 @@ var Accordion = React.createClass({
 	},
 
 	/**
-	 *	Returns the index of the active tab, i.e. the one
-	 *	that is currently expanded.
-	 *
-	 *	@return int Index.
-	 */
-	firstActiveTabIndex() {
-		var index = this.tabs.findIndex(function(tab) {
-			return tab.getAttribute('aria-selected') === 'true';
-		});
-
-		return (index === -1) ? 0 : index;
-	},
-
-	/**
 	 *	Returns the index of the focused tab.
 	 *
 	 *	@return int Index.
@@ -125,13 +100,6 @@ var Accordion = React.createClass({
 		});
 
 		return (index === -1) ? 0 : index;
-	},
-
-	/**
-	 *	Sets focus on the active tab.
-	 */
-	focusTab(index) {
-		this.tabs[index].focus();
 	},
 
 	/**
@@ -150,7 +118,7 @@ var Accordion = React.createClass({
 			index = 0;
 		}
 
-		this.focusTab(index);
+		this.tabs[index].focus();
 	},
 
 	/**
@@ -188,23 +156,9 @@ var Accordion = React.createClass({
 	/**
 	 *
 	 */
-	handleFocus(event) {
-		if (
-			!this.node.contains(this.focused)
-			&& this.node.contains(event.target)
-		) {
-			this.focusTab(this.firstActiveTabIndex());
-		}
-
-		this.focused = event.target;
-	},
-
-	/**
-	 *
-	 */
 	handleSelect(eventKey) {
-		var index = this.state.activeKeys.indexOf(eventKey);
 		var activeKeys = this.state.activeKeys;
+		var index = activeKeys.indexOf(eventKey);
 
 		if (index === -1) {
 			activeKeys.push(eventKey);
@@ -238,8 +192,9 @@ var Accordion = React.createClass({
 		return (
 			<div
 				{...elementProps}
-				className={className}
 				ref={this.referenceNodes}
+				className={className}
+				onKeyDown={this.handleKeyDown}
 				role="tablist"
 				aria-multiselectable
 			>
