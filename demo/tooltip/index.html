@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Composant Tooltip original - React Bootstrap - SGMAP</title>
+		<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<nav class="navbar navbar-dark">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="../index.html" class="navbar-brand">Accueil des tests React Bootstrap</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main role="main" class="container">
+			<h1>Composant <span lang="en">React Bootstrap Tooltip</span> original</h1>
+
+			<p><a href="https://react-bootstrap.github.io/components.html#tooltips">https://react-bootstrap.github.io/components.html#tooltips</a></p>
+
+			<div id="tooltip-demo"></div>
+		</main>
+
+		<script type="text/javascript" src="../../node_modules/react/dist/react.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-dom/dist/react-dom.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-bootstrap/dist/react-bootstrap.js"></script>
+
+		<script type="text/javascript">
+			var e = React.createElement;
+			var tooltip = e(ReactBootstrap.Tooltip, {id: 'tooltip'}, 'Contenu du tooltip');
+			var trigger = (
+				e(ReactBootstrap.OverlayTrigger, {overlay: tooltip},
+					e('button', {}, 'Ouvrir le tooltip')
+				)
+			);
+
+			ReactDOM.render(trigger, document.getElementById('tooltip-demo'));
+		</script>
+	</body>
+</html>

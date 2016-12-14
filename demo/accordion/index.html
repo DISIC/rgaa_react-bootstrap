@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Composant Accordion original - React Bootstrap - SGMAP</title>
+		<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<nav class="navbar navbar-dark">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="../index.html" class="navbar-brand">Accueil des tests React Bootstrap</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main role="main" class="container">
+			<h1>Composant <span lang="en">React Bootstrap Accordion</span> original</h1>
+
+			<p><a href="https://react-bootstrap.github.io/components.html#panels-accordion">https://react-bootstrap.github.io/components.html#panels-accordion</a></p>
+
+			<div id="accordion-demo"></div>
+		</main>
+
+		<script type="text/javascript" src="../../node_modules/react/dist/react.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-dom/dist/react-dom.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-bootstrap/dist/react-bootstrap.js"></script>
+
+		<script type="text/javascript">
+			var e = React.createElement;
+			var accordion = (
+				e(ReactBootstrap.Accordion, {defaultActiveKey: 'tab1'},
+					e(ReactBootstrap.Panel, {id: 'tab1', eventKey: 'tab1', header: 'Onglet 1'}, 'Contenu de l\'onglet 1'),
+					e(ReactBootstrap.Panel, {id: 'tab2', eventKey: 'tab2', header: 'Onglet 2'}, 'Contenu de l\'onglet 2'),
+					e(ReactBootstrap.Panel, {id: 'tab3', eventKey: 'tab3', header: 'Onglet 3'}, 'Contenu de l\'onglet 3')
+				)
+			);
+
+			ReactDOM.render(accordion, document.getElementById('accordion-demo'));
+		</script>
+	</body>
+</html>

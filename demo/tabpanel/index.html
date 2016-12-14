@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Composant TabPanel original - React Bootstrap - SGMAP</title>
+		<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<nav class="navbar navbar-dark">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="../index.html" class="navbar-brand">Accueil des tests React Bootstrap</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main role="main" class="container">
+			<h1>Composant <span lang="en">React Bootstrap TabPanel</span> original</h1>
+
+			<p><a href="https://react-bootstrap.github.io/components.html#tabs">https://react-bootstrap.github.io/components.html#tabs</a></p>
+
+			<div id="tabpanel-demo"></div>
+		</main>
+
+		<script type="text/javascript" src="../../node_modules/react/dist/react.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-dom/dist/react-dom.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-bootstrap/dist/react-bootstrap.js"></script>
+
+		<script type="text/javascript">
+			var e = React.createElement;
+			var tabPanel = (
+				e(ReactBootstrap.Tab.Container, {id: 'tabpanel', defaultActiveKey: 'tab1'},
+					e(ReactBootstrap.Row, {},
+						e(ReactBootstrap.Col, {},
+							e(ReactBootstrap.Nav, {},
+								e(ReactBootstrap.NavItem, {eventKey: 'tab1'}, 'Onglet 1'),
+								e(ReactBootstrap.NavItem, {eventKey: 'tab2'}, 'Onglet 2'),
+								e(ReactBootstrap.NavItem, {eventKey: 'tab3'}, 'Onglet 3')
+							)
+						),
+						e(ReactBootstrap.Col, {},
+							e(ReactBootstrap.Tab.Content, {},
+								e(ReactBootstrap.Tab.Pane, {eventKey: 'tab1'}, 'Contenu de l\'onglet 1'),
+								e(ReactBootstrap.Tab.Pane, {eventKey: 'tab2'}, 'Contenu de l\'onglet 2'),
+								e(ReactBootstrap.Tab.Pane, {eventKey: 'tab3'}, 'Contenu de l\'onglet 3')
+							)
+						)
+					)
+				)
+			);
+
+			ReactDOM.render(tabPanel, document.getElementById('tabpanel-demo'));
+		</script>
+	</body>
+</html>
