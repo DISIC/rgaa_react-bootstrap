@@ -18,9 +18,6 @@ Ce module exporte chacun des composants corrigés :
 var rgaaReactBootstrap = require('rgaa_react-bootstrap');
 
 var Accordion = rgaaReactBootstrap.Accordion;
-var FocusTrap = rgaaReactBootstrap.FocusTrap;
-var Modal = rgaaReactBootstrap.Modal;
 var ProgressBar = rgaaReactBootstrap.ProgressBar;
-var TabbedArea = rgaaReactBootstrap.TabbedArea;
 var TooltipOverlayTrigger = rgaaReactBootstrap.TooltipOverlayTrigger;
 ```
