@@ -11,11 +11,12 @@ module.exports = {
 	output: {
 		path: 'dist',
 		filename: 'rgaa_react-bootstrap.js',
-		library: 'rgaa_react-bootstrap',
+		library: 'RgaaReactBootstrap',
 		libraryTarget: 'umd'
 	},
 	externals: [
 		'react',
+		'react-dom',
 		'react-bootstrap'
 	],
 	module: {
