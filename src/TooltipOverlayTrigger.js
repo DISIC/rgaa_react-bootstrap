@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactBootstrap = require('react-bootstrap');
 var uid = require('uid');
+var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
 
 
@@ -17,7 +18,7 @@ module.exports = React.createClass({
 	 */
 	handleKeyDown: function(event) {
 		if (event.keyCode === 27) {
-			this.refs.trigger.handleDelayedHide();
+			this.trigger.handleDelayedHide();
 		}
 
 		if (this.props.onKeyDown) {
@@ -26,14 +27,21 @@ module.exports = React.createClass({
 	},
 
 	/**
+	 *
+	 */
+	referenceTrigger(trigger) {
+		this.trigger = trigger;
+	},
+
+	/**
 	 *	Renders the overlay and the tooltip with all the
 	 *	required attributes and handlers.
 	 */
 	render: function() {
 		return (
-			<ReactBootstrap.OverlayTrigger ref="trigger" {...this.props}>
+			<OverlayTrigger {...this.props} ref={this.referenceTrigger}>
 				{this.renderChild()}
-			</ReactBootstrap.OverlayTrigger>
+			</OverlayTrigger>
 		);
 	},
 
