@@ -7,7 +7,10 @@ var fullPath = path.resolve.bind(null, __dirname);
  *
  */
 module.exports = {
-	entry: fullPath('src/index.js'),
+	entry: [
+		'babel-polyfill',
+		fullPath('src/index.js')
+	],
 	output: {
 		path: 'dist',
 		filename: 'rgaa_react-bootstrap.js',
@@ -23,7 +26,7 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js$/,
-				loader: 'jsx-loader',
+				loader: 'babel-loader',
 				include: fullPath('src')
 			}
 		]
