@@ -1,6 +1,6 @@
 {
   "name": "rgaa_react-bootstrap",
-  "version": "2.0.0-2",
+  "version": "2.0.0",
   "description": "Accessible React Bootstrap components.",
   "author": "Félix Girault <felix@vtech.fr>",
   "license": "CC-BY 2.0",
