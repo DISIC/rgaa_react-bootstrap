@@ -2,7 +2,7 @@
   "name": "rgaa_react-bootstrap",
   "version": "2.0.0",
   "description": "Accessible React Bootstrap components.",
-  "author": "Félix Girault <felix@vtech.fr>",
+  "author": "Etat Plateforme <rgaa.sgmap@modernisation.gouv.fr>",
   "license": "CC-BY 2.0",
   "main": "dist/rgaa_react-bootstrap.js",
   "scripts": {
