@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Composant Modal original - React Bootstrap - SGMAP</title>
+		<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<nav class="navbar navbar-dark">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="../index.html" class="navbar-brand">Accueil des tests React Bootstrap</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main role="main" class="container">
+			<h1>Composant <span lang="en">React Bootstrap Modal</span> original</h1>
+
+			<p><a href="https://react-bootstrap.github.io/components.html#tooltips">https://react-bootstrap.github.io/components.html#tooltips</a></p>
+
+			<div id="modal-demo"></div>
+		</main>
+
+		<script type="text/javascript" src="../../node_modules/react/dist/react.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-dom/dist/react-dom.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-bootstrap/dist/react-bootstrap.js"></script>
+
+		<script type="text/javascript">
+			var e = React.createElement;
+			var Dialog = React.createClass({
+
+				getInitialState() {
+					return {
+						show: false
+					};
+				},
+
+				handleShow() {
+					this.setState({
+						show: true
+					});
+				},
+
+				handleHide() {
+					this.setState({
+						show: false
+					});
+				},
+
+				render() {
+					return (
+						e('div', {},
+							e(ReactBootstrap.Modal, {show: this.state.show, onHide: this.handleHide, 'aria-label': 'Dialog'},
+								e(ReactBootstrap.Modal.Header, {closeButton: true},
+									e(ReactBootstrap.Modal.Title, {}, 'Titre')
+								),
+								e(ReactBootstrap.Modal.Body, {}, 'Contenu')
+							),
+							e('button', {
+								type: 'button',
+								className: 'btn btn-sm btn-primary',
+								onClick: this.handleShow
+							}, 'Ouvrir la modale')
+						)
+					);
+				}
+			});
+
+			ReactDOM.render(e(Dialog), document.getElementById('modal-demo'));
+		</script>
+	</body>
+</html>

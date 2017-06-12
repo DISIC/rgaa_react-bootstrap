@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<title>React Bootstrap - SGMAP</title>
+		<link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<nav class="navbar navbar-dark" style="background: #2868C9;">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="index.html" class="navbar-brand">Accueil des tests React Bootstrap</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main role="main" class="container">
+			<h1 lang="en">React Bootstrap</h1>
+
+			<p class="alert alert-info">
+				{
+					"react": "^15.0.0",
+					"react-bootstrap": "^0.30.7"
+				}
+			</p>
+
+			<table class="table table-bordered">
+				<caption>Tableau des composants d’interface pour la bibliothèque <span lang="en">React Bootstrap</span></caption>
+
+				<thead>
+					<tr>
+						<th scope="col">composant</th>
+						<th scope="col">évaluation du composant natif</th>
+						<th scope="col">correction</th>
+						<th scope="col">restitution lecteurs d'écran</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<th scope="row" lang="en">Accordion</th>
+						<td class="table-danger">non conforme</td>
+						<td class="table-success">complète</td>
+						<td class="table-info">A TESTER</td>
+					</tr>
+
+					<tr>
+						<th scope="row" lang="en">Dialog</th>
+						<td class="table-success">conforme</td>
+						<td class="table-success">aucune</td>
+						<td class="table-info">A TESTER</td>
+					</tr>
+
+					<tr>
+						<th scope="row" lang="en">ProgressBar</th>
+						<td class="table-danger">non conforme</td>
+						<td class="table-success">complète</td>
+						<td class="table-info">A TESTER</td>
+					</tr>
+
+					<tr>
+						<th scope="row" lang="en">TabPanel</th>
+						<td class="table-success">conforme</td>
+						<td class="table-success">aucune</td>
+						<td class="table-info">A TESTER</td>
+					</tr>
+
+					<tr>
+						<th scope="row" lang="en">Tooltip</th>
+						<td class="table-danger">non conforme</td>
+						<td class="table-success">complète</td>
+						<td class="table-info">A TESTER</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h2 lang="en">Accordion</h2>
+
+			<ul>
+				<li><a href="accordion/corrige.html">Composant rendu accessible</a></li>
+				<li><a href="accordion/index.html">Composant original</a></li>
+			</ul>
+
+			<h2 lang="en">Dialog</h2>
+
+			<ul>
+				<li>Composant sans erreurs, pas de correction nécessaire</li>
+				<li><a href="modal/index.html">Composant original</a></li>
+			</ul>
+
+			<h2 lang="en">ProgressBar</h2>
+
+			<ul>
+				<li><a href="progressbar/corrige.html">Composant rendu accessible</a></li>
+				<li><a href="progressbar/index.html">Composant original</a></li>
+			</ul>
+
+			<h2 lang="en">TabPanel</h2>
+
+			<ul>
+				<li>Composant sans erreurs, pas de correction nécessaire</li>
+				<li><a href="tabpanel/index.html">Composant original</a></li>
+			</ul>
+
+			<h2 lang="en">Tooltip</h2>
+
+			<ul>
+				<li><a href="tooltip/corrige.html">Composant rendu accessible</a></li>
+				<li><a href="tooltip/index.html">Voir le tooltip jQueryUI original</a></li>
+			</ul>
+		</div>
+	</body>
+</html>

@@ -1,5 +1,14 @@
 var React = require('react');
+var ReactDom = require('react-dom');
 var ReactBootstrap = require('react-bootstrap');
+var classNames = require('classnames');
+var cloneElement = React.cloneElement;
+var findDOMNode = ReactDom.findDOMNode;
+var ValidComponentChildren = ReactBootstrap.utils.ValidComponentChildren;
+var createChainedFunction = ReactBootstrap.utils.createChainedFunction;
+var bsClass = ReactBootstrap.utils.bootstrapUtils.bsClass;
+var getClassSet = ReactBootstrap.utils.bootstrapUtils.getClassSet;
+var splitBsPropsAndOmit = ReactBootstrap.utils.bootstrapUtils.splitBsPropsAndOmit;
 
 
 
@@ -10,99 +19,74 @@ var ReactBootstrap = require('react-bootstrap');
  *	would require a rewrite of the components, making the
  *	changes harder to follow.
  */
-module.exports = React.createClass({
+var Accordion = React.createClass({
 
 	/**
-	 *	Returns the initial state.
 	 *
-	 *	@return object State.
 	 */
-	getInitialState: function() {
+	getInitialState() {
 		return {
-			activeKey: this.props.defaultActiveKey || null
+			activeKeys: this.props.defaultActiveKeys || []
 		};
 	},
 
 	/**
 	 *	Attaches event handlers and sets up the markup.
 	 */
-	componentDidMount: function() {
-		this.node = React.findDOMNode(this);
-		this.tabs = this.node.querySelectorAll('.panel-heading a');
-		this.panes = this.node.getElementsByClassName('panel-collapse');
-
-		this.node.addEventListener('keydown', this.handleKeyDown);
-		document.addEventListener('focus', this.handleFocus, true);
-
-		this.setupAttributes();
-		this.setupPanesAttributes();
-		this.updatePanesAttributes();
+	componentDidMount() {
+		this.setupPanelsAttributes();
+		this.updateTabsAttributes();
 	},
 
 	/**
-	 *	Detaches event handlers.
+	 *
 	 */
-	componentWillUnmount: function() {
-		this.node.removeEventListener('keydown', this.handleKeyDown);
-		document.removeEventListener('focus', this.handleFocus, true);
-	},
-
-	/**
-	 *	Sets up appropriate roles and ids on the elements.
-	 */
-	setupAttributes: function() {
-		this.node.setAttribute('role', 'tablist');
-		this.node.setAttribute('aria-multiselectable', 'false');
+	componentDidUpdate() {
+		this.updateTabsAttributes();
 	},
 
 	/**
 	 *	Adds appropriate attributes on tabs and panes.
 	 */
-	setupPanesAttributes: function() {
-		for (var i = 0, l = this.tabs.length; i < l; i++) {
-			var tab = this.tabs[i];
-			var pane = this.panes[i];
+	setupPanelsAttributes() {
+		this.tabs.forEach(function(tab, i) {
 			var id = tab.getAttribute('id');
 
 			if (!id) {
-				id = 'tab-' + i;
+				id = 'tab' + i;
 				tab.setAttribute('id', id);
 			}
 
-			tab.setAttribute('role', 'tab');
-			pane.setAttribute('role', 'tabpanel');
-			pane.setAttribute('aria-labelledby', id);
+			this.panels[i].setAttribute('aria-labelledby', id);
+		}, this);
+	},
+
+	/**
+	 *	Updates attributes.
+	 */
+	updateTabsAttributes() {
+		this.tabs.forEach(function(tab) {
+			this.makeFocusable(
+				tab,
+				tab.getAttribute('aria-selected') === 'true'
+			);
+		}, this);
+
+		// If no tab is active, makes the first one focusable.
+		if (this.state.activeKeys.length === 0) {
+			this.makeFocusable(this.tabs[0], true);
 		}
 	},
 
 	/**
-	 *	Updates appropriate attributes on related tab and pane.
+	 *	Sets focus on the active tab.
 	 */
-	updatePanesAttributes: function() {
-		for (var i = 0, l = this.panes.length; i < l; i++) {
-			var tab = this.tabs[i];
-			var pane = this.panes[i];
-			var isActive = (pane.getAttribute('aria-expanded') === 'true');
-
-			pane.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-			tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+	makeFocusable(node, focusable) {
+		if (focusable) {
+			node.removeAttribute('tabindex');
+		} else {
+			node.setAttribute('tabindex', '-1');
 		}
-	},
-
-	/**
-	 *	Returns the index of the active tab, i.e. the one
-	 *	that is currently expanded.
-	 *
-	 *	@return int Index.
-	 */
-	activeTabIndex: function() {
-		for (var i = 0, l = this.tabs.length; i < l; i++) {
-			if (this.tabs[i].getAttribute('aria-selected') === 'true') {
-				return i;
-			}
-		}
-
-		return 0;
 	},
 
 	/**
@@ -110,22 +94,12 @@ module.exports = React.createClass({
 	 *
 	 *	@return int Index.
 	 */
-	focusedTabIndex: function() {
-		for (var i = 0, l = this.tabs.length; i < l; i++) {
-			if (this.tabs[i] === document.activeElement) {
-				return i;
-			}
-		}
+	focusedTabIndex() {
+		var index = this.tabs.findIndex(function(tab) {
+			return tab === document.activeElement;
+		});
 
-		return 0;
-	},
-
-	/**
-	 *	Sets focus on the active tab.
-	 */
-	focusActiveTab: function() {
-		var index = this.activeTabIndex();
-		this.tabs[index].focus();
+		return (index === -1) ? 0 : index;
 	},
 
 	/**
@@ -133,7 +107,7 @@ module.exports = React.createClass({
 	 *
 	 *	@param int direction Direction.
 	 */
-	focusSiblingTab: function(direction) {
+	focusSiblingTab(direction) {
 		var index = this.focusedTabIndex() + direction;
 
 		if (index < 0) {
@@ -152,7 +126,7 @@ module.exports = React.createClass({
 	 *
 	 *	@param object event Event.
 	 */
-	handleKeyDown: function(event) {
+	handleKeyDown(event) {
 		if (event.target.getAttribute('role') !== 'tab') {
 			return;
 		}
@@ -182,53 +156,71 @@ module.exports = React.createClass({
 	/**
 	 *
 	 */
-	handleFocus: function(event) {
-		if (
-			!this.node.contains(this.focused)
-			&& this.node.contains(event.target)
-		) {
-			this.focusActiveTab();
-		}
+	handleSelect(eventKey) {
+		var activeKeys = this.state.activeKeys;
+		var index = activeKeys.indexOf(eventKey);
 
-		this.focused = event.target;
-	},
-
-	/**
-	 *	Selects the tab identified by the given key.
-	 *
-	 *	@param string key Tab key.
-	 */
-	handleSelect: function(key) {
-		if (key === this.state.activeKey) {
-			key = null;
+		if (index === -1) {
+			activeKeys.push(eventKey);
+		} else {
+			activeKeys.splice(index, 1);
 		}
 
 		this.setState({
-			activeKey: key
-		}, function() {
-			this.updatePanesAttributes();
-
-			if (this.state.activeKey !== null) {
-				this.focusActiveTab();
-			}
+			activeKeys: activeKeys
 		});
-
-		if (this.props.onSelect) {
-			this.props.onSelect(key);
-		}
 	},
 
 	/**
-	 *	Renders the tabbed area.
+	 *
 	 */
-	render: function() {
+	referenceNodes(panelGroup) {
+		this.node = findDOMNode(panelGroup);
+		this.tabs = [].slice.call(this.node.querySelectorAll('[role="tab"]'));
+		this.panels = [].slice.call(this.node.querySelectorAll('[role="tabpanel"]'));
+	},
+
+	/**
+	 *
+	 */
+	render() {
+		var splittedProps= splitBsPropsAndOmit(this.props, ['onSelect']);
+		var bsProps = splittedProps[0];
+		var elementProps = splittedProps[1];
+		var className = classNames(this.props.className, getClassSet(bsProps));
+
 		return (
-			<ReactBootstrap.Accordion
-				activeKey={this.state.activeKey}
-				onSelect={this.handleSelect}
+			<div
+				{...elementProps}
+				ref={this.referenceNodes}
+				className={className}
+				onKeyDown={this.handleKeyDown}
+				role="tablist"
+				aria-multiselectable
 			>
-				{this.props.children}
-			</ReactBootstrap.Accordion>
+				{ValidComponentChildren.map(
+					this.props.children,
+					function(child) {
+						return cloneElement(child, {
+							bsStyle: child.props.bsStyle || bsProps.bsStyle,
+							headerRole: 'tab',
+							panelRole: 'tabpanel',
+							collapsible: true,
+							expanded: this.state.activeKeys.includes(child.props.eventKey),
+							onSelect: createChainedFunction(
+								this.handleSelect,
+								child.props.onSelect
+							)
+						});
+					},
+					this
+				)}
+			</div>
 		);
 	}
 });
+
+/**
+ *
+ */
+module.exports = bsClass('panel-group', Accordion);

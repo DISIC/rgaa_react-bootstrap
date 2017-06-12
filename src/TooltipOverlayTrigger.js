@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactBootstrap = require('react-bootstrap');
 var uid = require('uid');
+var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
 
 
@@ -11,25 +12,13 @@ var uid = require('uid');
 module.exports = React.createClass({
 
 	/**
-	 *	Returns the tooltip id, or generate a unique
-	 *	one if none was set.
-	 *
-	 *	@return int id.
-	 */
-	tooltipId: function() {
-		return this.props.overlay.props.id
-			? this.props.overlay.props.id
-			: 'tooltip-' + uid();
-	},
-
-	/**
 	 *	Closes the tooltip when the user presses esc.
 	 *
 	 *	@param object event Event.
 	 */
 	handleKeyDown: function(event) {
 		if (event.keyCode === 27) {
-			this.refs.trigger.handleDelayedHide();
+			this.trigger.handleDelayedHide();
 		}
 
 		if (this.props.onKeyDown) {
@@ -38,39 +27,31 @@ module.exports = React.createClass({
 	},
 
 	/**
+	 *
+	 */
+	referenceTrigger(trigger) {
+		this.trigger = trigger;
+	},
+
+	/**
 	 *	Renders the overlay and the tooltip with all the
 	 *	required attributes and handlers.
 	 */
 	render: function() {
-		var id = this.tooltipId();
-		var child = this.renderChild(id);
-		var tooltip = this.renderTooltip(id);
-
 		return (
-			<ReactBootstrap.OverlayTrigger ref="trigger" {...this.props} overlay={tooltip}>
-				{child}
-			</ReactBootstrap.OverlayTrigger>
+			<OverlayTrigger {...this.props} ref={this.referenceTrigger}>
+				{this.renderChild()}
+			</OverlayTrigger>
 		);
-	},
-
-	/**
-	 *	Renders the enriched tooltip.
-	 */
-	renderTooltip: function(id) {
-		return React.cloneElement(this.props.overlay, {
-			id: id,
-			role: 'tooltip'
-		});
 	},
 
 	/**
 	 *	Renders the enriched child.
 	 */
-	renderChild: function(tooltipId) {
+	renderChild: function() {
 		var child = React.Children.only(this.props.children);
 
 		return React.cloneElement(child, {
-			'aria-describedby': tooltipId,
 			'onKeyDown': this.handleKeyDown
 		});
 	}

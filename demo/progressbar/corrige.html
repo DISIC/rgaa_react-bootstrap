@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Composant ProgressBar corrigé - React Bootstrap - SGMAP</title>
+		<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<nav class="navbar navbar-dark">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="../index.html" class="navbar-brand">Accueil des tests React Bootstrap</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main role="main" class="container">
+			<h1>Composant <span lang="en">React Bootstrap ProgressBar</span> corrigé</h1>
+
+			<p><a href="https://react-bootstrap.github.io/components.html#progress">https://react-bootstrap.github.io/components.html#progress</a></p>
+
+			<div id="progressbar-demo"></div>
+			<div id="progressbar-demo-target">
+				<p>Zone mise à jour</p>
+			</div>
+		</main>
+
+		<script type="text/javascript" src="../../node_modules/react/dist/react.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-dom/dist/react-dom.js"></script>
+		<script type="text/javascript" src="../../node_modules/react-bootstrap/dist/react-bootstrap.js"></script>
+
+		<script type="text/javascript">
+			this['react'] = React;
+			this['react-dom'] = ReactDOM;
+			this['react-bootstrap'] = ReactBootstrap;
+		</script>
+
+		<script type="text/javascript" src="../../dist/rgaa_react-bootstrap.js"></script>
+
+		<script type="text/javascript">
+			var e = React.createElement;
+			var ProgressBar = React.createClass({
+
+				getInitialState: function() {
+					return {
+						value: 0
+					};
+				},
+
+				start: function() {
+					this.setState({
+						value: 0
+					}, function() {
+						clearInterval(this.interval);
+						this.interval = setInterval(this.update, 100);
+					});
+				},
+
+				update: function() {
+					var value = this.state.value + 5;
+
+					this.setState({
+						value: value
+					}, function() {
+						if (this.state.value >= 100) {
+							clearInterval(this.interval);
+						}
+					});
+				},
+
+				render: function() {
+					return (
+						e('div', {},
+							e(RgaaReactBootstrap.ProgressBar, {
+								title: 'Exemple de progress bar',
+								label: this.state.value + '%',
+								target: this.props.target,
+								now: this.state.value
+							}),
+							e('button', {
+								type: 'button',
+								className: 'btn btn-sm btn-primary',
+								onClick: this.start
+							}, 'Démarrer')
+						)
+					);
+				}
+			});
+
+			var progressBar = e(ProgressBar, {
+				target: document.getElementById('progressbar-demo-target')
+			});
+
+			ReactDOM.render(progressBar, document.getElementById('progressbar-demo'));
+		</script>
+	</body>
+</html>
