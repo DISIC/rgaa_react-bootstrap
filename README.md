@@ -2,7 +2,7 @@
 
 Corrections d'accessibilité sur les composants React Bootstrap.
 
-[Tutoriel sur la mise en accessibilité](https://disic.github.io/rgaa_bibliotheques_javascript/tutoriels/react-bootstrap.html)
+[Tutoriel sur la mise en accessibilité](https://disic.github.io/rgaa_bibliotheques-javascript/tutoriels/react-bootstrap.html)
 
 ## Installation
 
